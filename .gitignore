@@ -39,6 +39,7 @@
 *.log
 *.out
 *.gz
+*.pdf
 
 #cmake
 cmake*
