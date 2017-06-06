@@ -232,7 +232,14 @@ public:
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
   const_reference min() const {
-    /* ... */
+
+    Node* min = _root;
+
+    while(min->left != NULL){
+      min = min->left;
+    }
+
+    return min->key;
   }
   
   //
@@ -242,8 +249,31 @@ public:
   //
   // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
   //
+
   void deleteMin() {
-    /* ... */
+
+    Node* min = _root;
+    Node* tmp = NULL;
+
+// version itérative
+
+    if(min == NULL)
+      return; //signaller une erreur
+
+    //le minimum est la racine
+    if(min->left == NULL){
+      _root = min->right;
+      delete(min);
+      return;
+    }
+
+    // min est l'avant plus petit
+    while(min->left->left != NULL)
+      min = min->left;
+
+    tmp = min->left;
+    min->left = min->left->right;
+    delete tmp;
   }
   
   
@@ -274,8 +304,75 @@ private:
   // l'arbre mais retourne false. Si l'element est present, elle
   // retourne vrai
   //
+    //fct perso
+static Node* min(Node* r){
+    if(r->left == NULL)
+      return r;
+
+    return min(r->left);
+  }
+       //fct perso
+ static void deleteMin(Node*& r) {
+
+    Node* min = r;
+    Node* tmp = NULL;
+
+// version itérative
+
+    if(min == NULL)
+      return; //signaller une erreur
+
+    //le minimum est la racine
+    if(min->left == NULL){
+      r = min->right;
+      delete(min);
+      return;
+    }
+
+    // min est l'avant plus petit
+    while(min->left->left != NULL)
+      min = min->left;
+
+    tmp = min->left;
+    min->left = min->left->right;
+    delete tmp;
+
+  }
+
   static bool deleteElement( Node*& r, const_reference key) noexcept {
-    /* ... */
+
+    if(r == NULL)
+      return false;
+
+    if(r->key < key)
+      return deleteElement(r->left, key);
+
+    else if(r->key > key)
+      return deleteElement(r->right, key);
+
+    else{ // key found
+      Node* tmp = r;
+      if(r->right == NULL) {
+        tmp = r;
+        r = r->left;
+        delete tmp;
+        return true;
+      }
+      else if(r->left == NULL){
+        tmp = r;
+        r = r->right;
+        delete tmp;
+        return true;
+      } // use Hibbard
+      else {
+        tmp = min(r->right);
+        const_reference tmpKey = tmp->key;
+        tmp->key = r->key;
+        r->key = tmpKey;
+        deleteMin(r->right);
+        return true;
+      }
+    }
     return false;
   }
   
