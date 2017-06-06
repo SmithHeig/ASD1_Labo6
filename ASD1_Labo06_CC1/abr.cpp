@@ -165,8 +165,20 @@ private:
   // la fonction peut modifier x, reçu par référence, si nécessaire
   //
   static bool insert(Node*& r, const_reference key) {
-    /* ... */
-    return false;
+
+    if(r == NULL) {
+      r = new Node(key);
+      return true;
+    }
+
+    else if (key < r->key)
+      return insert(r->left,key);
+
+    else if (key > r->key)
+      return insert(r->right, key);
+
+    else
+      return false;
   }
   
 public:
@@ -194,8 +206,19 @@ private:
   // @return vrai si la cle trouvee, faux sinon.
   //
   static bool contains(Node* r, const_reference key) noexcept {
-    /* ... */
-    return false;
+
+    if(r == NULL)
+      return false;
+
+    else if(key < r->key)
+      return contains(r->left, key);
+
+    else if(key > r->key)
+      return contains(r->right, key);
+
+    else
+      return true;
+
   }
   
 public:
