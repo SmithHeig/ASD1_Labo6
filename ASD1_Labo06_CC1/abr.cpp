@@ -263,7 +263,7 @@ public:
 
     //le minimum est la racine
     if(min->left == NULL){
-      _root = min->right; //stack tree pre ordered
+      _root = min->right;
       delete(min);
       return;
     }
@@ -337,7 +337,6 @@ static Node* min(Node* r){
     tmp = min->left;
     min->left = min->left->right;
     delete tmp;
-
   }
 
     void swapNode(Node* one, Node* two){
@@ -375,7 +374,10 @@ static Node* min(Node* r){
     }
 
   static bool deleteElement( Node*& r, const_reference key) noexcept {
-    /*if(r == NULL)
+
+
+/*
+    if(r == NULL)
       return false;
 
     if(r->key < key)
@@ -406,7 +408,8 @@ static Node* min(Node* r){
         deleteMin(r->right);
         return true;
       }
-    }*/
+    }
+*/
     return false;
   }
 
