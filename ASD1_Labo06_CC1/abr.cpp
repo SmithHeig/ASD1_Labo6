@@ -263,7 +263,7 @@ public:
 
     //le minimum est la racine
     if(min->left == NULL){
-      _root = min->right;
+      _root = min->right;stack tree pre ordered
       delete(min);
       return;
     }
@@ -339,6 +339,40 @@ static Node* min(Node* r){
     delete tmp;
 
   }
+
+    void swapNode(Node* one, Node* two){
+        Node* onePrev = _root;
+        Node* twoPrev = _root;
+        Node* tmp = NULL;
+
+        while(onePrev->right != one && onePrev->left != one){
+            if(one->key < onePrev->key)
+                onePrev = onePrev->left;
+            else if(one->key > onePrev->key)
+                onePrev = onePrev->right;
+            else
+                return;
+        }
+
+        while(twoPrev->right != one && twoPrev->left != one){
+            if(two->key < twoPrev->key)
+                twoPrev = twoPrev->left;
+            else if(two->key > twoPrev->key)
+                twoPrev = twoPrev->right;
+            else
+                return;
+        }
+
+        if(onePrev->right == one){
+            tmp = onePrev->right;
+            onePrev->right = two;
+        }
+
+        std::swap(one, two);
+
+
+
+    }
 
   static bool deleteElement( Node*& r, const_reference key) noexcept {
 
