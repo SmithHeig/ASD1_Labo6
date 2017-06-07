@@ -12,6 +12,7 @@
 #include <queue>
 #include <cassert>
 #include <stdexcept>
+#include <stack>
 
 using namespace std;
 
@@ -558,14 +559,20 @@ public:
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
 
+  template < typename Fn>
+  void visitPre(Node* r, Fn f){
+      if(r != NULL){
+          f(r->key);
+          visitPre(r->left, f);
+          visitPre(r->right, f);
+      }
+  }
+
   template < typename Fn >
   void visitPre (Fn f) {
-      Node* n = _root;
 
-      while(n != NULL){
-          f(n->key);
-          n = n->left;
-      }
+      visitPre(_root, f);
+
   }
   
   //
@@ -575,9 +582,21 @@ public:
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
   //
+
+  template < typename Fn>
+  void visitsym(Node* r, Fn f){
+      if(r != NULL){
+          visitsym(r->left, f);
+          f(r->key);
+          visitsym(r->right, f);
+      }
+  }
+
   template < typename Fn >
   void visitSym (Fn f) {
-    /* ... */
+
+      visitsym(_root, f);
+
   }
   
   //
@@ -587,9 +606,19 @@ public:
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
   //
+  template < typename Fn>
+  void visitPost(Node* r, Fn f){
+      if(r != NULL){
+          visitPost(r->left, f);
+          visitPost(r->right, f);
+          f(r->key);
+      }
+  }
   template < typename Fn >
   void visitPost (Fn f) {
-    /* ... */
+
+      visitPost(_root, f);
+
   }
   
   
