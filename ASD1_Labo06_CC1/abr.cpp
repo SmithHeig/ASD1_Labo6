@@ -341,6 +341,8 @@ static Node* min(Node* r){
 
   static bool deleteElement( Node*& r, const_reference key) noexcept {
 
+
+/*
     if(r == NULL)
       return false;
 
@@ -373,7 +375,38 @@ static Node* min(Node* r){
         return true;
       }
     }
+*/
     return false;
+  }
+
+    // fct perso
+    Node* deleteElementRec( Node*& r, const_reference key) noexcept {
+
+    if(r == NULL)
+      return r;
+
+    if(r->key < key)
+      r->left = deleteElementRec(r->left, key);
+
+    else if(r->key > key)
+      r->right = deleteElementRec(r->right, key);
+
+    else{ // key found
+      if(r->right == NULL) {
+          deleteElement(r->right);
+          return r->left;
+      }
+      else if(r->left == NULL){
+          deleteElement(r->left);
+          return r->right;
+      } // use Hibbard
+      else {
+          Node* min = min(r->right);
+          swap(min, r);
+          deleteMin(r->right);
+      }
+    }
+    return r;
   }
   
 public:
@@ -524,10 +557,15 @@ public:
   // @param f une fonction capable d'être appelée en recevant une cle
   //          en parametre. Pour le noeud n courrant, l'appel sera
   //          f(n->key);
-  //
+
   template < typename Fn >
   void visitPre (Fn f) {
-    /* ... */
+      Node* n = _root;
+
+      while(n != NULL){
+          f(n->key);
+          n = n->left;
+      }
   }
   
   //
