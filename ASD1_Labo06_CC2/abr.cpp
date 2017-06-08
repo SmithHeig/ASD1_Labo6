@@ -346,7 +346,7 @@ private:
         // minEl est l'avant plus petit
         while(min->left->left != NULL)
             min = min->left;
-
+           min->nbElements--;               //FIXME
         tmp = min->left;
         min->left = min->left->right;
         if (tmp->right != NULL) {
@@ -358,6 +358,14 @@ private:
         return tmp;
     }
 
+ static void updateNbElem(Node* r){ //FIXME
+        if(r != NULL){
+            updateNbElem(r->left);
+            updateNbElem(r->right);
+            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+        }
+    }
+
     static bool deleteElement( Node*& r, const_reference key) noexcept {
 
         if(r == NULL)
@@ -366,7 +374,7 @@ private:
         if(r->key > key) {
             bool deleted = deleteElement(r->left, key);
             if (deleted) {
-                --r->nbElements;
+            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
             }
             return deleted;
         }
@@ -374,7 +382,7 @@ private:
         else if(r->key < key) {
             bool deleted = deleteElement(r->right, key);
             if(deleted){
-                --r->nbElements;
+            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
             }
             return deleted;
         }
@@ -399,6 +407,7 @@ private:
                 min->right = tmp->right;
                 min->left = tmp->left;
                 delete tmp;
+                //updateNbElem(r);    //FIXME
             }
             return true;
         }
