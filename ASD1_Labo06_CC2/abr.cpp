@@ -578,37 +578,7 @@ private:
         else
             return r->left->nbElements;
     }
-/*
-    static bool contains(Node* r, const_reference key) noexcept {
 
-        if(r == NULL)
-            return false;
-
-        else if(key < r->key)
-            return contains(r->left, key);
-
-        else if(key > r->key)
-            return contains(r->right, key);
-
-        else
-            return true;
-
-    } 
- */
-    
-    /*
-fonction chercher( clé C, racine R )
-    si R est nul, alors
-        signaler que C est introuvable
-    sinon si C < R.clé, alors
-        chercher( C, R.gauche )
-    sinon, si C > R.clé , alors
-        chercher( C, R.droit )
-    sinon // R.clé vaut C
-        retourner R
-    fin si
-     
-     */
 public:
     //
     // @brief linearise l'arbre
