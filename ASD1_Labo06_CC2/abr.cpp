@@ -520,7 +520,11 @@ public:
     // la fonction recursive nth_element(Node*, n)
     //
     const_reference nth_element(size_t n) const {
-        /* ... */
+        if(_root == NULL){
+            throw logic_error("Erreur: l'arbre est vide");
+        } else if(n > size()){
+            throw logic_error("Erreur: La position est en dehors du tableau.");
+        }
         return nth_element(_root,n);
     }
 
@@ -536,10 +540,17 @@ private:
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
         assert(r != nullptr);
-        /* ... */
+
+
         return -1;
     }
-
+    /*void visitsym(Node* r, Fn f){
+        if(r != NULL){
+            visitsym(r->left, f);
+            f(r->key);
+            visitsym(r->right, f);
+        }
+    }*/
 public:
     //
     // @brief position d'une cle dans l'ordre croissant des elements de l'arbre
