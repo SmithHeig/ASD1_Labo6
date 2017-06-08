@@ -413,8 +413,10 @@ public:
     // @return le nombre d'elements de l'arbre
     //
     size_t size() const noexcept {
-        /* ... */
-        return 0;
+        if(_root == NULL){
+            return 0;
+        }
+        return _root->nbElements;
     }
 
     //
@@ -458,13 +460,7 @@ private:
             return r->key;
         }
     }
-    /*void visitsym(Node* r, Fn f){
-        if(r != NULL){
-            visitsym(r->left, f);
-            f(r->key);
-            visitsym(r->right, f);
-        }
-    }*/
+
 public:
     //
     // @brief position d'une cle dans l'ordre croissant des elements de l'arbre
