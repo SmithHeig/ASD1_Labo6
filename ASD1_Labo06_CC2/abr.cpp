@@ -179,11 +179,15 @@ private:
         }
 
         else if (key < r->key) {
-            return insert(r->left, key);
+            bool inserted = insert(r->left, key);
+            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+            return inserted;
         }
 
         else if (key > r->key) {
-            return insert(r->right, key);
+            bool inserted = insert(r->right, key);
+             r->nbElements = 1 +  (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+            return inserted;
         }
 
         else
