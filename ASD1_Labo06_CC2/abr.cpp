@@ -422,8 +422,10 @@ public:
     // @return le nombre d'elements de l'arbre
     //
     size_t size() const noexcept {
-        /* ... */
-        return 0;
+        if(_root == NULL){
+            return 0;
+        }
+        return _root->nbElements;
     }
 
     //
@@ -438,7 +440,11 @@ public:
     // la fonction recursive nth_element(Node*, n)
     //
     const_reference nth_element(size_t n) const {
-        /* ... */
+        if(_root == NULL){
+            throw logic_error("Erreur: l'arbre est vide");
+        } else if(n > size()){
+            throw logic_error("Erreur: La position est en dehors du tableau.");
+        }
         return nth_element(_root,n);
     }
 
@@ -454,8 +460,14 @@ private:
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
         assert(r != nullptr);
-        /* ... */
-        return -1;
+        size_t s = r->left->nbElements;
+        if(n < s){
+            return nth_element(r->left,n);
+        } else if(n > s){
+            return nth_element(r->right,n-s-1);
+        } else {
+            return r->key;
+        }
     }
 
 public:
