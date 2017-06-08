@@ -449,9 +449,14 @@ private:
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
         assert(r != nullptr);
-
-
-        return -1;
+        size_t s = r->left->nbElements;
+        if(n < s){
+            return nth_element(r->left,n);
+        } else if(n > s){
+            return nth_element(r->right,n-s-1);
+        } else {
+            return r->key;
+        }
     }
     /*void visitsym(Node* r, Fn f){
         if(r != NULL){
