@@ -358,37 +358,6 @@ private:
         return tmp;
     }
 
-    void swapNode(Node* one, Node* two){
-        Node* onePrev = _root;
-        Node* twoPrev = _root;
-        Node* tmp = NULL;
-
-        while(onePrev->right != one && onePrev->left != one){
-            if(one->key < onePrev->key)
-                onePrev = onePrev->left;
-            else if(one->key > onePrev->key)
-                onePrev = onePrev->right;
-            else
-                return;
-        }
-
-        while(twoPrev->right != one && twoPrev->left != one){
-            if(two->key < twoPrev->key)
-                twoPrev = twoPrev->left;
-            else if(two->key > twoPrev->key)
-                twoPrev = twoPrev->right;
-            else
-                return;
-        }
-
-        if(onePrev->right == one){
-            tmp = onePrev->right;
-            onePrev->right = two;
-        }
-
-        std::swap(one, two);
-    }
-
     static bool deleteElement( Node*& r, const_reference key) noexcept {
 
         if(r == NULL)
@@ -434,71 +403,7 @@ private:
             return true;
         }
 
-/*
-    if(r == NULL)
-      return false;
-
-    if(r->key < key)
-      return deleteElement(r->left, key);
-
-    else if(r->key > key)
-      return deleteElement(r->right, key);
-
-    else{ // key found
-      Node* tmp = r;
-      if(r->right == NULL) {
-        tmp = r;
-        r = r->left;
-        delete tmp;
-        return true;
-      }
-      else if(r->left == NULL){
-        tmp = r;
-        r = r->right;
-        delete tmp;
-        return true;
-      } // use Hibbard
-      else {
-        tmp = minEl(r->right);
-        const_reference tmpKey = tmp->key;
-        tmp->key = r->key;
-        r->key = tmpKey;
-        deleteMin(r->right);
-        return true;
-      }
-    }
-*/
         return false;
-    }
-
-    // fct perso
-    Node* deleteElementRec( Node*& r, const_reference key) noexcept {
-
-        if(r == NULL)
-            return r;
-
-        if(r->key < key)
-            deleteElementRec(r->left, key);
-
-        else if(r->key > key)
-            deleteElementRec(r->right, key);
-
-        else{ // key found
-            if(r->right == NULL) {
-                deleteElement(r->right);
-                return r->left;
-            }
-            else if(r->left == NULL){
-                deleteElement(r->left);
-                return r->right;
-            } // use Hibbard
-            else {
-                Node* min = minEl(r->right);
-                std::swap(min, r);
-                deleteMin(r->right);
-            }
-        }
-        return r;
     }
 
 public:
