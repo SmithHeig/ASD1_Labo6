@@ -569,10 +569,46 @@ private:
     // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
     //
     static size_t rank(Node* r, const_reference key) noexcept {
-        /* ... */
-        return -1;
+        if(r == NULL)
+            return -1;
+        else if(key < r->key)
+            return rank(r->left, key);
+        else if(key > r->key)
+            return (rank(r->right, key) + (r->left->nbElements) + 1);
+        else
+            return r->left->nbElements;
     }
+/*
+    static bool contains(Node* r, const_reference key) noexcept {
 
+        if(r == NULL)
+            return false;
+
+        else if(key < r->key)
+            return contains(r->left, key);
+
+        else if(key > r->key)
+            return contains(r->right, key);
+
+        else
+            return true;
+
+    } 
+ */
+    
+    /*
+fonction chercher( clé C, racine R )
+    si R est nul, alors
+        signaler que C est introuvable
+    sinon si C < R.clé, alors
+        chercher( C, R.gauche )
+    sinon, si C > R.clé , alors
+        chercher( C, R.droit )
+    sinon // R.clé vaut C
+        retourner R
+    fin si
+     
+     */
 public:
     //
     // @brief linearise l'arbre
