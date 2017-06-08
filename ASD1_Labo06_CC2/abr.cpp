@@ -179,11 +179,15 @@ private:
         }
 
         else if (key < r->key) {
-            return insert(r->left, key);
+            bool inserted = insert(r->left, key);
+            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+            return inserted;
         }
 
         else if (key > r->key) {
-            return insert(r->right, key);
+            bool inserted = insert(r->right, key);
+             r->nbElements = 1 +  (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+            return inserted;
         }
 
         else
@@ -576,8 +580,14 @@ private:
     // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
     //
     static size_t rank(Node* r, const_reference key) noexcept {
-        /* ... */
-        return -1;
+        if(r == NULL)
+            return -1;
+        else if(key < r->key)
+            return rank(r->left, key);
+        else if(key > r->key)
+            return (rank(r->right, key) + (r->left->nbElements) + 1);
+        else
+            return r->left->nbElements;
     }
 
 public:
