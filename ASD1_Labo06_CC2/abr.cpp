@@ -90,7 +90,7 @@ public:
      *
      */
     BinarySearchTree( BinarySearchTree& other ) {
-
+        /*...*/
     }
 
     /**
@@ -99,8 +99,9 @@ public:
      *  @param other le BinarySearchTree à copier
      *
      */
-    BinarySearchTree& operator= ( const BinarySearchTree& other ) {
-        /* ... */
+    BinarySearchTree& operator = ( const BinarySearchTree& other ) {
+        //BinarySearchTree tmp = other;
+        //swap(tmp);
         return *this;
     }
 
@@ -111,7 +112,7 @@ public:
      *
      */
     void swap(BinarySearchTree& other ) noexcept {
-        /* ... */
+        std::swap(_root, other._root);
     }
 
     /**
@@ -120,8 +121,9 @@ public:
      *  @param other le BST dont on vole le contenu
      *
      */
-    BinarySearchTree( BinarySearchTree&& other ) noexcept {
-        /* ... */
+    BinarySearchTree( BinarySearchTree&& other ) noexcept
+    : _root(nullptr){
+        swap(other);
     }
 
     /**
@@ -130,8 +132,9 @@ public:
      *  @param other le BST dont on vole le contenu
      *
      */
-    BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept {
-        /* ... */
+    BinarySearchTree& operator = ( BinarySearchTree&& other ) noexcept {
+        _root = nullptr;
+        swap(other);
         return *this;
     }
 
