@@ -72,7 +72,7 @@ public:
      *
      */
     BinarySearchTree( BinarySearchTree& other ) {
-        /* ... */
+        /*...*/
     }
 
     /**
@@ -81,8 +81,9 @@ public:
      *  @param other le BinarySearchTree à copier
      *
      */
-    BinarySearchTree& operator= ( const BinarySearchTree& other ) {
-        /* ... */
+    BinarySearchTree& operator = ( const BinarySearchTree& other ) {
+        //BinarySearchTree tmp = other;
+        //swap(tmp);
         return *this;
     }
 
@@ -93,7 +94,7 @@ public:
      *
      */
     void swap(BinarySearchTree& other ) noexcept {
-        /* ... */
+        std::swap(_root, other._root);
     }
 
     /**
@@ -102,8 +103,9 @@ public:
      *  @param other le BST dont on vole le contenu
      *
      */
-    BinarySearchTree( BinarySearchTree&& other ) noexcept {
-        /* ... */
+    BinarySearchTree( BinarySearchTree&& other ) noexcept
+    : _root(nullptr){
+        swap(other);
     }
 
     /**
@@ -112,8 +114,9 @@ public:
      *  @param other le BST dont on vole le contenu
      *
      */
-    BinarySearchTree& operator= ( BinarySearchTree&& other ) noexcept {
-        /* ... */
+    BinarySearchTree& operator = ( BinarySearchTree&& other ) noexcept {
+        _root = nullptr;
+        swap(other);
         return *this;
     }
 
@@ -509,6 +512,7 @@ private:
     // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
     //
     static size_t rank(Node* r, const_reference key) noexcept {
+        /*
         if(r == NULL)
             return -1;
         else if(key < r->key)
@@ -518,6 +522,8 @@ private:
         }
         else
             return r->left->nbElements;
+
+        */
     }
 
 public:
