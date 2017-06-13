@@ -57,15 +57,16 @@ private:
             if (r != nullptr) {
                 node = new Node(r->key);
                 node->nbElements = r->nbElements;
-                node->right = copyNode(r->right);
                 node->left = copyNode(r->left);
+                node->right = copyNode(r->right);
                 return node;
             }
-            return nullptr;
+            return r;
         } catch(...){
             if(node != nullptr){
                 deleteSubTree(node);
             }
+            throw;
         }
     }
 
@@ -89,7 +90,7 @@ public:
      *  @param other le BinarySearchTree à copier
      *
      */
-    BinarySearchTree( BinarySearchTree& other ) {
+    BinarySearchTree(const BinarySearchTree& other ) {
         _root = copyNode(other._root);
     }
 
@@ -99,9 +100,9 @@ public:
      *  @param other le BinarySearchTree à copier
      *
      */
-    BinarySearchTree& operator = ( const BinarySearchTree& other ) {
-        //BinarySearchTree tmp = other;
-        //swap(tmp);
+    BinarySearchTree& operator = (const BinarySearchTree& other ) {
+        BinarySearchTree tmp = other;
+        swap(tmp);
         return *this;
     }
 
@@ -145,7 +146,8 @@ public:
     // récursive privée deleteSubTree(Node*)
     //
     ~BinarySearchTree() {
-        deleteSubTree( _root );
+        if(!_root)
+            deleteSubTree( _root );
     }
 
 private:
