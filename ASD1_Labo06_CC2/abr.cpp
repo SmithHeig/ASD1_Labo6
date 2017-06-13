@@ -138,13 +138,15 @@ private:
     //          peut éventuellement valoir nullptr
     //
     static void deleteSubTree(Node* r) noexcept {
-        if(r->left != nullptr){
-            deleteSubTree(r->left);
+        if(r != nullptr) {
+            if (r->left != nullptr) {
+                deleteSubTree(r->left);
+            }
+            if (r->right != nullptr) {
+                deleteSubTree(r->right);
+            }
+            delete (r);
         }
-        if(r->right != nullptr){
-            deleteSubTree(r->right);
-        }
-        delete(r);
     }
 
 public:
@@ -512,18 +514,24 @@ private:
     // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
     //
     static size_t rank(Node* r, const_reference key) noexcept {
-        /*
-        if(r == NULL)
+        if(r == nullptr)
             return -1;
         else if(key < r->key)
             return rank(r->left, key);
         else if(key > r->key) {
-            return (rank(r->right, key) + (r->left->nbElements) + 1);
+            size_t rank_l = 0;
+            size_t rank_r = rank(r->right, key);
+            if(rank_r == -1)
+                return -1;
+            if(r->left != nullptr)
+                rank_l = r->left->nbElements;
+            return rank_l + rank_r + 1;
         }
-        else
-            return r->left->nbElements;
-
-        */
+        else{
+            if(r->left != nullptr)
+                return r->left->nbElements;
+            return 0;
+        }
     }
 
 public:
