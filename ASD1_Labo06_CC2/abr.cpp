@@ -469,7 +469,12 @@ private:
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
         assert(r != nullptr);
-        size_t s = r->left->nbElements;
+        size_t s;
+        if(r->left == nullptr){
+            s = 0;
+        } else {
+            s = r->left->nbElements;
+        }
         if(n < s){
             return nth_element(r->left,n);
         } else if(n > s){
@@ -508,8 +513,9 @@ private:
             return -1;
         else if(key < r->key)
             return rank(r->left, key);
-        else if(key > r->key)
+        else if(key > r->key) {
             return (rank(r->right, key) + (r->left->nbElements) + 1);
+        }
         else
             return r->left->nbElements;
     }
