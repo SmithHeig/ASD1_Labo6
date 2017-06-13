@@ -1,0 +1,28 @@
+static bool deleteElement(Node*& r, const_reference key) noexcept {
+
+      if (r == nullptr) {
+         return false;
+      }
+
+      if (key < r->key) {
+         return deleteElement(r->left, key);
+      } else if (key > r->key) {
+         return deleteElement(r->right, key);
+      } else {
+         Node* tmp = r;
+         if (r->right == nullptr) {
+            r = r->left;
+         } else if (r->left == nullptr) {
+            r = r->right;
+         } else {
+            Node* min = removeMinAndReturnIt(r->right);
+
+            r = min;
+            tmp->right->left = min->right;
+            min->left = tmp->left;
+            min->right = tmp->right;
+         }
+         delete(tmp);
+         return true;
+      }
+   }

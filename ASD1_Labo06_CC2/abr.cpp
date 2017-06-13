@@ -265,8 +265,8 @@ public:
     //
 
     void deleteMin() {
-
-        Node* min = _root;
+        delete deleteMinAndReturnIt(_root);
+        /*Node* min = _root;
         Node* tmp = NULL;
 
 // version itérative
@@ -287,7 +287,7 @@ public:
 
         tmp = min->left;
         min->left = min->left->right;
-        delete tmp;
+        delete tmp;*/
     }
 
 
@@ -336,6 +336,7 @@ private:
         if(min == NULL)
             return NULL; //signaller une erreur
 
+        r->nbElements--;
         //le minimum est la racine
         if(min->left == NULL){
             tmp = min;
@@ -344,9 +345,11 @@ private:
         }
 
         // minEl est l'avant plus petit
-        while(min->left->left != NULL)
+        while(min->left->left != NULL){
             min = min->left;
-           min->nbElements--;               //FIXME
+            min->nbElements--;
+        }
+
         tmp = min->left;
         min->left = min->left->right;
         if (tmp->right != NULL) {
@@ -374,7 +377,7 @@ private:
         if(r->key > key) {
             bool deleted = deleteElement(r->left, key);
             if (deleted) {
-            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+                r->nbElements--;
             }
             return deleted;
         }
@@ -382,7 +385,7 @@ private:
         else if(r->key < key) {
             bool deleted = deleteElement(r->right, key);
             if(deleted){
-            r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+                r->nbElements--;
             }
             return deleted;
         }
@@ -400,19 +403,25 @@ private:
             } // use Hibbard
             else {
                 Node* min = deleteMinAndReturnIt(r->right);
-                //min->right = r->right;
-                //min->left = r->left;
+                min->nbElements = tmp->nbElements -1;
                 r = min;
                 tmp->right->left = min->right;
                 min->right = tmp->right;
                 min->left = tmp->left;
                 delete tmp;
                 //updateNbElem(r);    //FIXME
+                /*Node* min = deleteMinAndReturnIt(r->right);
+                //min->right = r->right;
+                //min->left = r->left;
+                r = min;
+                r->nbElements = r->right->
+                tmp->right->left = min->right;
+                min->right = tmp->right;
+                min->left = tmp->left;
+                delete tmp;*/
             }
             return true;
         }
-
-        return false;
     }
 
 public:
