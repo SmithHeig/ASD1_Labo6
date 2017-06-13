@@ -100,6 +100,7 @@ public:
      *  @param other le BinarySearchTree à copier
      *
      */
+
     BinarySearchTree& operator = (const BinarySearchTree& other ) {
         BinarySearchTree tmp = other;
         swap(tmp);
@@ -123,7 +124,7 @@ public:
      *
      */
     BinarySearchTree( BinarySearchTree&& other ) noexcept
-    : _root(nullptr){
+            : _root(nullptr){
         swap(other);
     }
 
@@ -212,7 +213,7 @@ private:
 
         else if (key > r->key) {
             bool inserted = insert(r->right, key);
-             r->nbElements = 1 +  (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
+            r->nbElements = 1 +  (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
             return inserted;
         }
 
@@ -365,7 +366,7 @@ private:
         return tmp;
     }
 
- static void updateNbElem(Node* r){ //FIXME
+    static void updateNbElem(Node* r){ //FIXME
         if(r != nullptr){
             updateNbElem(r->left);
             updateNbElem(r->right);
