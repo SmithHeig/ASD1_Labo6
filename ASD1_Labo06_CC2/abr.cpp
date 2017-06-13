@@ -100,8 +100,8 @@ public:
      *
      */
     BinarySearchTree& operator = ( const BinarySearchTree& other ) {
-        //BinarySearchTree tmp = other;
-        //swap(tmp);
+       // BinarySearchTree tmp = other;
+        swap(other);
         return *this;
     }
 
