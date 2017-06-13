@@ -559,7 +559,21 @@ private:
     //             avez uniquement le droit d'utiliser l'opérateur ++.
     //
     static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept {
-        /* ... */
+        if(tree == nullptr){
+            return;
+        }
+
+        linearize(tree->right,list, cnt);
+
+        Node* temp = list;
+        list = tree;
+        tree->right = temp;
+        list->nbElements = ++cnt;
+
+        linearize(tree->left, list,cnt);
+
+        tree->left = nullptr;
+
     }
 
 public:
