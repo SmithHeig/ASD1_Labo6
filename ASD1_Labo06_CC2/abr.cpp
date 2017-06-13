@@ -90,7 +90,7 @@ public:
      *
      */
     BinarySearchTree( BinarySearchTree& other ) {
-        /*...*/
+        _root = copyNode(other._root);
     }
 
     /**
