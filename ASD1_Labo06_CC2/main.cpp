@@ -112,7 +112,7 @@ int main() {
     
     // **** CONSTRUCTEURS ET AFFECTATION ****
     
-    /**cout << "Test du move constructor - abr2(move(abr)) \n";
+    cout << "Test du move constructor - abr2(move(abr)) \n";
     {
       BinarySearchTree<int> abr2 ( move(abr) );
       cout << "abr2: \n"; abr2.display();
@@ -160,7 +160,7 @@ int main() {
       cout << "\n";
       
       cout << "Destruction abr2 \n";
-    }*/
+    }
     cout << "\n";
     cout << "Destruction abr \n";
 

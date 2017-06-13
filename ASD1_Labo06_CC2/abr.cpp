@@ -51,6 +51,24 @@ private:
         Node(Node&&) = delete;       // pas de construction par déplacement
     };
 
+    static Node* copyNode(Node* r){
+        Node *node = nullptr;
+        try {
+            if (r != nullptr) {
+                node = new Node(r->key);
+                node->nbElements = r->nbElements;
+                node->right = copyNode(r->right);
+                node->left = copyNode(r->left);
+                return node;
+            }
+            return nullptr;
+        } catch(...){
+            if(node != nullptr){
+                deleteSubTree(node);
+            }
+        }
+    }
+
     /**
      *  @brief  Racine de l'arbre. nullptr si l'arbre est vide
      */
@@ -72,7 +90,7 @@ public:
      *
      */
     BinarySearchTree( BinarySearchTree& other ) {
-        /* ... */
+
     }
 
     /**
@@ -143,6 +161,7 @@ private:
                 deleteSubTree(r->right);
             }
             delete (r);
+            r = nullptr;
         }
     }
 
@@ -175,7 +194,7 @@ private:
     //
     static bool insert(Node*& r, const_reference key) {
 
-        if(r == NULL) {
+        if(r == nullptr) {
             r = new Node(key);
             return true;
         }
@@ -223,7 +242,7 @@ private:
     //
     static bool contains(Node* r, const_reference key) noexcept {
 
-        if(r == NULL)
+        if(r == nullptr)
             return false;
 
         else if(key < r->key)
@@ -251,7 +270,7 @@ public:
 
         Node* min = _root;
 
-        while(min->left != NULL){
+        while(min->left != nullptr){
             min = min->left;
         }
 
@@ -268,28 +287,6 @@ public:
 
     void deleteMin() {
         delete deleteMinAndReturnIt(_root);
-        /*Node* min = _root;
-        Node* tmp = NULL;
-
-// version itérative
-
-        if(min == NULL)
-            return; //signaller une erreur
-
-        //le minimum est la racine
-        if(min->left == NULL){
-            _root = min->right;
-            delete(min);
-            return;
-        }
-
-        // minEl est l'avant plus petit
-        while(min->left->left != NULL)
-            min = min->left;
-
-        tmp = min->left;
-        min->left = min->left->right;
-        delete tmp;*/
     }
 
 
@@ -322,7 +319,7 @@ private:
     //
     //fct perso
     static Node* minEl(Node *r){
-        if(r->left == NULL)
+        if(r->left == nullptr)
             return r;
 
         return minEl(r->left);
@@ -331,30 +328,30 @@ private:
     static Node* deleteMinAndReturnIt(Node* r) {
 
         Node* min = r;
-        Node* tmp = NULL;
+        Node* tmp = nullptr;
 
 // version itérative
 
-        if(min == NULL)
-            return NULL; //signaller une erreur
+        if(min == nullptr)
+            return nullptr; //signaller une erreur
 
         r->nbElements--;
         //le minimum est la racine
-        if(min->left == NULL){
+        if(min->left == nullptr){
             tmp = min;
             min = min->right;
             return tmp;
         }
 
         // minEl est l'avant plus petit
-        while(min->left->left != NULL){
+        while(min->left->left != nullptr){
             min = min->left;
             min->nbElements--;
         }
 
         tmp = min->left;
         min->left = min->left->right;
-        if (tmp->right != NULL) {
+        if (tmp->right != nullptr) {
             min->left = tmp->right;
         } else {
             tmp->left = nullptr;
@@ -364,7 +361,7 @@ private:
     }
 
  static void updateNbElem(Node* r){ //FIXME
-        if(r != NULL){
+        if(r != nullptr){
             updateNbElem(r->left);
             updateNbElem(r->right);
             r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
@@ -373,7 +370,7 @@ private:
 
     static bool deleteElement( Node*& r, const_reference key) noexcept {
 
-        if(r == NULL)
+        if(r == nullptr)
             return false;
 
         if(r->key > key) {
@@ -393,12 +390,12 @@ private:
         }
         else{ // key found
             Node* tmp = r;
-            if(r->right == NULL) {
+            if(r->right == nullptr) {
                 tmp = r->left;
                 delete r;
                 r = tmp;
             }
-            else if(r->left == NULL){
+            else if(r->left == nullptr){
                 tmp = r->right;
                 delete r;
                 r = tmp;
@@ -411,16 +408,7 @@ private:
                 min->right = tmp->right;
                 min->left = tmp->left;
                 delete tmp;
-                //updateNbElem(r);    //FIXME
-                /*Node* min = deleteMinAndReturnIt(r->right);
-                //min->right = r->right;
-                //min->left = r->left;
-                r = min;
-                r->nbElements = r->right->
-                tmp->right->left = min->right;
-                min->right = tmp->right;
-                min->left = tmp->left;
-                delete tmp;*/
+                tmp = nullptr;
             }
             return true;
         }
@@ -433,7 +421,7 @@ public:
     // @return le nombre d'elements de l'arbre
     //
     size_t size() const noexcept {
-        if(_root == NULL){
+        if(_root == nullptr){
             return 0;
         }
         return _root->nbElements;
@@ -451,7 +439,7 @@ public:
     // la fonction recursive nth_element(Node*, n)
     //
     const_reference nth_element(size_t n) const {
-        if(_root == NULL){
+        if(_root == nullptr){
             throw logic_error("Erreur: l'arbre est vide");
         } else if(n > size()){
             throw logic_error("Erreur: La position est en dehors du tableau.");
@@ -610,7 +598,7 @@ public:
 
     template < typename Fn>
     void visitPre(Node* r, Fn f){
-        if(r != NULL){
+        if(r != nullptr){
             f(r->key);
             visitPre(r->left, f);
             visitPre(r->right, f);
@@ -634,7 +622,7 @@ public:
 
     template < typename Fn>
     void visitsym(Node* r, Fn f){
-        if(r != NULL){
+        if(r != nullptr){
             visitsym(r->left, f);
             f(r->key);
             visitsym(r->right, f);
@@ -657,7 +645,7 @@ public:
     //
     template < typename Fn>
     void visitPost(Node* r, Fn f){
-        if(r != NULL){
+        if(r != nullptr){
             visitPost(r->left, f);
             visitPost(r->right, f);
             f(r->key);
