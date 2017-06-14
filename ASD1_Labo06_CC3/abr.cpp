@@ -626,8 +626,8 @@ private:
         }
 
         tree = middleNode;
+
         arborize(tree->left, list, (cnt-1)/2);
-        tree->left = middleNode;
         list = middleNode->right;
         arborize(tree->right, list, cnt/2);
 
