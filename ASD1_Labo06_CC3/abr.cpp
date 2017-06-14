@@ -609,12 +609,10 @@ private:
     //             arboriser le sous arbre
     //
     static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept {
-        if(tree == nullptr || list == nullptr || cnt == 0){
+        if(list == nullptr || cnt == 0){
             tree = nullptr;
             return;
         }
-
-
 
         Node* middleNode = list;
         size_t midCnt = (cnt-1)/2;
@@ -626,7 +624,7 @@ private:
         }
 
         tree = middleNode;
-
+        tree->nbElements = cnt;
         arborize(tree->left, list, (cnt-1)/2);
         list = middleNode->right;
         arborize(tree->right, list, cnt/2);
