@@ -589,9 +589,9 @@ public:
         size_t cnt = 0;
         Node* list = nullptr;
         linearize(_root,list,cnt);
-        deleteSubTree(_root);
-        _root->right = nullptr;
-        _root->left = nullptr;
+        //deleteSubTree(_root);
+        //_root->right = nullptr;
+        //_root->left = nullptr;
         arborize(_root,list,cnt);
     }
 
@@ -609,31 +609,28 @@ private:
     //             arboriser le sous arbre
     //
     static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept {
-        if(tree == nullptr || list == nullptr || cnt == 0)
+        if(tree == nullptr || list == nullptr || cnt == 0){
+            tree = nullptr;
             return;
+        }
 
-        Node* subTree = tree;
 
 
-        Node* r = list;
+        Node* middleNode = list;
         size_t midCnt = (cnt-1)/2;
 
         while(midCnt != 0){
-            //T i = r->key;
-            r = r->right;
+            T i = middleNode->key; //FIXME delete me
+            middleNode = middleNode->right;
             --midCnt;
         }
 
-        arborize(tree, list, (cnt-1)/2);
+        tree = middleNode;
+        arborize(tree->left, list, (cnt-1)/2);
+        tree->left = middleNode;
+        list = middleNode->right;
+        arborize(tree->right, list, cnt/2);
 
-        tree = r;
-        tree = tree->left;
-
-
-        arborize(tree, r->right, cnt/2);
-
-        tree = r;
-        tree = tree->right;
     }
 
 public:
