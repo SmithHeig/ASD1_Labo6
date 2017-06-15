@@ -79,9 +79,7 @@ public:
     /**
      *  @brief Constructeur par défaut. Construit un arbre vide
      */
-    BinarySearchTree() : _root(nullptr)
-    {
-        /* ... */
+    BinarySearchTree() : _root(nullptr) {
     }
 
     /**
@@ -207,12 +205,14 @@ private:
 
         else if (key < r->key) {
             bool inserted = insert(r->left, key);
+            //addition du nombre d'éléments des deux enfants
             r->nbElements = 1 + (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
             return inserted;
         }
 
         else if (key > r->key) {
             bool inserted = insert(r->right, key);
+            //addition du nombre d'éléments des deux enfants
             r->nbElements = 1 +  (r->left ? r->left->nbElements : 0) + (r->right ? r->right->nbElements : 0);
             return inserted;
         }
@@ -259,7 +259,6 @@ private:
 
         else
             return true;
-
     }
 
 public:
@@ -273,6 +272,9 @@ public:
     // vous pouvez mettre en oeuvre de manière iterative ou recursive a choix
     //
     const_reference min() const {
+
+        if(_root == nullptr)
+            throw logic_error("empty tree");
 
         Node* min = _root;
 
@@ -325,27 +327,27 @@ private:
     //
     //fct perso
     static Node* minEl(Node *r){
+        if(r == nullptr)
+            throw logic_error("tree empty");
+
         if(r->left == nullptr)
             return r;
 
         return minEl(r->left);
     }
+
     //fct perso
     static Node* deleteMinAndReturnIt(Node* r) {
+        if(r == nullptr)
+            throw logic_error("empty tree");
 
         Node* min = r;
         Node* tmp = nullptr;
-
-// version itérative
-
-        if(min == nullptr)
-            return nullptr; //signaller une erreur
 
         r->nbElements--;
         //le minimum est la racine
         if(min->left == nullptr){
             tmp = min;
-            min = min->right;
             return tmp;
         }
 
@@ -366,7 +368,7 @@ private:
         return tmp;
     }
 
-    static void updateNbElem(Node* r){ //FIXME
+    static void updateNbElem(Node* r){
         if(r != nullptr){
             updateNbElem(r->left);
             updateNbElem(r->right);
@@ -464,7 +466,6 @@ private:
     // elements
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
-        assert(r != nullptr);
         size_t s;
         if(r->left == nullptr){
             s = 0;
@@ -589,9 +590,6 @@ public:
         size_t cnt = 0;
         Node* list = nullptr;
         linearize(_root,list,cnt);
-        //deleteSubTree(_root);
-        //_root->right = nullptr;
-        //_root->left = nullptr;
         arborize(_root,list,cnt);
     }
 
@@ -650,9 +648,7 @@ public:
 
     template < typename Fn >
     void visitPre (Fn f) {
-
         visitPre(_root, f);
-
     }
 
     //
@@ -674,9 +670,7 @@ public:
 
     template < typename Fn >
     void visitSym (Fn f) {
-
         visitsym(_root, f);
-
     }
 
     //
@@ -696,9 +690,7 @@ public:
     }
     template < typename Fn >
     void visitPost (Fn f) {
-
         visitPost(_root, f);
-
     }
 
     //
