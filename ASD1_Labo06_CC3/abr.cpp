@@ -51,6 +51,13 @@ private:
         Node(Node&&) = delete;       // pas de construction par déplacement
     };
 
+    /**
+     *  @brief Copie le noeud
+     *
+     *  @param Node* r, le noeud à copier
+     *
+     *  Complexité: O(n)
+     */    
     static Node* copyNode(Node* r){
         Node *node = nullptr;
         try {
@@ -78,6 +85,8 @@ private:
 public:
     /**
      *  @brief Constructeur par défaut. Construit un arbre vide
+     *
+     *  Complexité: O(1)
      */
     BinarySearchTree() : _root(nullptr) {
     }
@@ -87,6 +96,7 @@ public:
      *
      *  @param other le BinarySearchTree à copier
      *
+     *  Complexité: O(n)
      */
     BinarySearchTree(const BinarySearchTree& other ) {
         _root = copyNode(other._root);
@@ -97,8 +107,8 @@ public:
      *
      *  @param other le BinarySearchTree à copier
      *
+     *  Complexité: O(n)
      */
-
     BinarySearchTree& operator = (const BinarySearchTree& other ) {
         BinarySearchTree tmp = other;
         swap(tmp);
@@ -110,6 +120,7 @@ public:
      *
      *  @param other le BST avec lequel on echange le contenu
      *
+     *  Complexité: O(n)
      */
     void swap(BinarySearchTree& other ) noexcept {
         std::swap(_root, other._root);
@@ -120,6 +131,7 @@ public:
      *
      *  @param other le BST dont on vole le contenu
      *
+     *  Complexité: O(n)
      */
     BinarySearchTree( BinarySearchTree&& other ) noexcept
             : _root(nullptr){
@@ -131,6 +143,7 @@ public:
      *
      *  @param other le BST dont on vole le contenu
      *
+     *  Complexité: O(1)
      */
     BinarySearchTree& operator = ( BinarySearchTree&& other ) noexcept {
         _root = nullptr;
@@ -144,6 +157,8 @@ public:
     // Ne pas modifier mais écrire la fonction
     // récursive privée deleteSubTree(Node*)
     //
+    //  Complexité O(n)
+    //
     ~BinarySearchTree() {
         if(_root != nullptr)
             deleteSubTree( _root );
@@ -155,6 +170,8 @@ private:
     //
     // @param r la racine du sous arbre à détruire.
     //          peut éventuellement valoir nullptr
+    //
+    //  Complexité: moy(n))
     //
     static void deleteSubTree(Node* r) noexcept {
         if(r != nullptr) {
@@ -178,6 +195,8 @@ public:
     // Ne pas modifier mais écrire la fonction
     // récursive privée insert(Node*&,const_reference)
     //
+    //  Complexité: moy(log(n))
+    //
     void insert( const_reference key) {
         insert(_root,key);
     }
@@ -195,6 +214,8 @@ private:
     // Si la cle est deja presente, cette fonction ne fait rien.
     // x peut éventuellement valoir nullptr en entrée.
     // la fonction peut modifier x, reçu par référence, si nécessaire
+    //
+    //  Complexité: moy(log(n))
     //
     static bool insert(Node*& r, const_reference key) {
 
@@ -233,6 +254,8 @@ public:
     // Ne pas modifier mais écrire la fonction
     // récursive privée contains(Node*,const_reference)
     //
+    //  Complexité moy(log(n))
+    //
     bool contains( const_reference key ) const noexcept {
         return contains(_root,key);
     }
@@ -245,6 +268,8 @@ private:
     // @param r   la racine du sous-arbre
     //
     // @return vrai si la cle trouvee, faux sinon.
+    //
+    //  Complexité moy(log(n))
     //
     static bool contains(Node* r, const_reference key) noexcept {
 
@@ -325,7 +350,8 @@ private:
     // l'arbre mais retourne false. Si l'element est present, elle
     // retourne vrai
     //
-    //fct perso
+    //  Complexité : O(log(n))  
+    //
     static Node* minEl(Node *r){
         if(r == nullptr)
             throw logic_error("tree empty");
@@ -336,7 +362,14 @@ private:
         return minEl(r->left);
     }
 
-    //fct perso
+   /**
+    * @brief Enleve et retourne le plus petit élément de l'arbre
+    * 
+    * @param r la racine du sous arbre
+    * @return l'element minimum supprimé
+    * 
+    * Complexité : O(log(n))
+    */    
     static Node* deleteMinAndReturnIt(Node* r) {
         if(r == nullptr)
             throw logic_error("empty tree");
@@ -368,6 +401,14 @@ private:
         return tmp;
     }
 
+
+   /**
+    * @brief Mise du nombre d'éléments de chaque nooeuds selon les enfants
+    * 
+    * @param r la racine du sous arbre
+    * 
+    * Complexité : O(n)
+    */  
     static void updateNbElem(Node* r){
         if(r != nullptr){
             updateNbElem(r->left);
@@ -376,6 +417,15 @@ private:
         }
     }
 
+   /**
+    * @brief Supprime le noeud contenant la valeur key
+    * 
+    * @param r la racine du sous arbre
+    * @param key valeur à supprimer 
+    * @return true si la suppression s'est effectuée correctement
+    * 
+    * Complexité : O(log(n))
+    */      
     static bool deleteElement( Node*& r, const_reference key) noexcept {
 
         if(r == nullptr)
@@ -428,6 +478,8 @@ public:
     //
     // @return le nombre d'elements de l'arbre
     //
+    //  Complexité: O(n)
+    //
     size_t size() const noexcept {
         if(_root == nullptr){
             return 0;
@@ -435,7 +487,6 @@ public:
         return _root->nbElements;
     }
 
-    //
     // @brief cle en position n
     //
     // @return une reference a la cle en position n par ordre croissant des
@@ -445,6 +496,8 @@ public:
     //
     // ajoutez le code de gestion des exceptions, puis mettez en oeuvre
     // la fonction recursive nth_element(Node*, n)
+    //
+    // Complexité: O(n)
     //
     const_reference nth_element(size_t n) const {
         if(_root == nullptr){
@@ -464,6 +517,8 @@ private:
     //
     // @return une reference a la cle en position n par ordre croissant des
     // elements
+    //
+    //  Complexité: O(n)
     //
     static const_reference nth_element(Node* r, size_t n) noexcept {
         size_t s;
@@ -492,6 +547,8 @@ public:
     // Ne pas modifier mais écrire la fonction
     // récursive privée rank(Node*,const_reference)
     //
+    //  Compléxité moy O(log(n))
+    //      
     size_t rank(const_reference key) const noexcept {
         return rank(_root,key);
     }
@@ -505,6 +562,8 @@ private:
     //
     // @return la position entre 0 et size()-1, size_t(-1) si la cle est absente
     //
+    //  Complexité moy O(log(n))
+    //  
     static size_t rank(Node* r, const_reference key) noexcept {
         if(r == nullptr)
             return -1;
@@ -539,6 +598,8 @@ public:
     // fonction recursive linearize(Node*, Node*&, size_t&) utilisée par
     // la methode publique arborize
     //
+    //  Complexité: O(n)
+    //
     void linearize() noexcept {
         size_t cnt = 0;
         Node* list = nullptr;
@@ -558,6 +619,8 @@ private:
     //             cree. l'effet de la fonction doit etre d'ajouter le nombre
     //             d'elements du sous-arbre de racine tree. Cependant, vous
     //             avez uniquement le droit d'utiliser l'opérateur ++.
+    //
+    //  Complexité: O(n)
     //
     static void linearize(Node* tree, Node*& list, size_t& cnt) noexcept {
         if(tree == nullptr){
@@ -586,6 +649,8 @@ public:
     //
     // Ne pas modifier cette fonction.
     //
+    //  Complexité: O(n)
+    //  
     void balance() noexcept {
         size_t cnt = 0;
         Node* list = nullptr;
@@ -605,6 +670,8 @@ private:
     //                   elements
     // @param cnt  nombre d'elements de la liste que l'on doit utiliser pour
     //             arboriser le sous arbre
+    //
+    //  Complexité: O(n)
     //
     static void arborize(Node*& tree, Node*& list, size_t cnt) noexcept {
         if(list == nullptr || cnt == 0){
@@ -635,7 +702,9 @@ public:
     // @param f une fonction capable d'être appelée en recevant une cle
     //          en parametre. Pour le noeud n courrant, l'appel sera
     //          f(n->key);
-
+    //
+    //  Complexité: O(n)
+    //
     template < typename Fn>
     void visitPre(Node* r, Fn f){
         if(r != nullptr){
@@ -657,7 +726,8 @@ public:
     //          en parametre. Pour le noeud n courrant, l'appel sera
     //          f(n->key);
     //
-
+    //  Complexité: O(n)	
+    //
     template < typename Fn>
     void visitsym(Node* r, Fn f){
         if(r != nullptr){
@@ -678,6 +748,8 @@ public:
     // @param f une fonction capable d'être appelée en recevant une cle
     //          en parametre. Pour le noeud n courrant, l'appel sera
     //          f(n->key);
+    //
+    // Complexité: O(n)
     //
     template < typename Fn>
     void visitPost(Node* r, Fn f){
