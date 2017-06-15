@@ -60,18 +60,18 @@ int main() {
     
     // ***** DELETE ****
     
-    vector<int> toDelete = { 10, 16, 7, 10 };
-    
-    for(int i : toDelete ) {
-      if(abr.deleteElement(i)) {
-        cout << "Suppression de " << i << "\n";
-        cout << "Etat de l'arbre: \n";
-        abr.display();
-        cout << "\n";
-      } else {
-        cout << "Absence de " << i << ". Pas de suppression \n";
-      }
-    }
+//    vector<int> toDelete = { 10, 16, 7, 10 };
+//    
+//    for(int i : toDelete ) {
+//      if(abr.deleteElement(i)) {
+//        cout << "Suppression de " << i << "\n";
+//        cout << "Etat de l'arbre: \n";
+//        abr.display();
+//        cout << "\n";
+//      } else {
+//        cout << "Absence de " << i << ". Pas de suppression \n";
+//      }
+//    }
     
     // **** VISITES *****
     
@@ -94,11 +94,11 @@ int main() {
     
     // **** NTH_ELEMENT ****
     
-    cout << "Test de nth_element \n";
-    for(int i = 0; i < abr.size(); ++i) {
-      cout << abr.nth_element(i) << " ";
-    }
-    cout << "\n\n";
+//    cout << "Test de nth_element \n";
+//    for(int i = 0; i < abr.size(); ++i) {
+//      cout << abr.nth_element(i) << " ";
+//    }
+//    cout << "\n\n";
     
     // **** RANK ****
     
