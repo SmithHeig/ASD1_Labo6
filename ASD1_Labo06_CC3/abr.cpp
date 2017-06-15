@@ -616,7 +616,6 @@ private:
         size_t midCnt = (cnt-1)/2;
 
         while(midCnt != 0){
-            T i = middleNode->key; //FIXME delete me
             middleNode = middleNode->right;
             --midCnt;
         }
